@@ -20,8 +20,7 @@ React SPA 프론트엔드와 Node.js/Express 백엔드, MongoDB(Mongoose)를 사
 
 ## 결과 화면
 
-결과 이미지
-
+<img width="1152" height="648" alt="Image" src="https://github.com/user-attachments/assets/c923caff-5145-4bd5-9195-e8c59635a84a" />
 ---
 
 ## 프로젝트 구조
