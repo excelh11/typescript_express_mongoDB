@@ -1,4 +1,4 @@
-# TypeScript Express + MongoDB 웹 서비스
+# TypeScript +  Express + MongoDB 웹 서비스
 
 React SPA 프론트엔드와 Node.js/Express 백엔드, MongoDB(Mongoose)를 사용한 풀스택 웹 서비스입니다.
 
@@ -13,8 +13,14 @@ React SPA 프론트엔드와 Node.js/Express 백엔드, MongoDB(Mongoose)를 사
 | **Backend**  | Node.js, Express, TypeScript                 |
 | **DB**       | MongoDB, Mongoose                            |
 | **인증**       | JWT, bcrypt                                  |
-| **배포**       | AWS (Elastic Beanstalk + S3), Netlify(선택)    |
+| **배포**       | AWS (Elastic Beanstalk + S3)                 |
 
+
+---
+
+## 결과 화면
+
+결과 이미지
 
 ---
 
@@ -56,68 +62,7 @@ deploy/
 - **app.ts**: CORS, `express.json()`, `GET /health`, `app.use("/api", routes)`
 - **routes/index.ts**: `/api/auth`, `/api/products`, `/api/videos` 로 라우터 분기
 
-## 2. 구조 다이어그램 (Backend)
-
-```mermaid
-flowchart TB
-    subgraph Entry["진입점"]
-        A[server.ts] --> B[config/db.ts connectDB]
-        A --> C[app.ts]
-    end
-
-    subgraph App["Express 앱"]
-        C --> D[cors]
-        C --> E[express.json]
-        C --> F[GET /health]
-        C --> G["/api → routes"]
-    end
-
-    subgraph Routes["라우터"]
-        G --> H["/auth → authRouter"]
-        G --> I["/products → productRouter"]
-        G --> J["/videos → videoRouter"]
-    end
-
-    subgraph Auth["인증 API"]
-        H --> K["POST /register → register"]
-        H --> L["POST /login → login"]
-        K --> M[auth.controller]
-        L --> M
-        M --> N[User Model]
-    end
-
-    subgraph Products["상품 API (Private)"]
-        I --> O[authMiddleware]
-        O --> P[productRouter]
-        P --> Q[createProduct]
-        P --> R[getProducts]
-        P --> S[updateProduct]
-        P --> T[deleteProduct]
-        Q --> U[product.controller]
-        R --> U
-        S --> U
-        T --> U
-        U --> V[Product Model]
-    end
-
-    subgraph Videos["비디오 API"]
-        J --> W["POST / → authMiddleware → createVideo"]
-        J --> X["GET /search → searchVideos"]
-        W --> Y[video.controller]
-        X --> Y
-        Y --> Z[Video Model]
-    end
-
-    subgraph DB["데이터"]
-        N --> DB[(MongoDB)]
-        V --> DB
-        Z --> DB
-    end
-```
-
-
-
-## 3. Backend 호출 관계 요약
+## 2. Backend 호출 관계 요약
 
 
 | 경로                       | Route         | Middleware     | Controller                        | Model   |
@@ -133,7 +78,7 @@ flowchart TB
 | GET /api/videos/search   | video.route   | -              | video.controller.searchVideos     | Video   |
 
 
-## 4. Backend 시퀀스 (로그인 예시)
+## 3. Backend 시퀀스 (로그인 예시)
 
 ```mermaid
 sequenceDiagram
@@ -171,73 +116,7 @@ sequenceDiagram
 - **App.tsx**: `AuthProvider`로 감싼 뒤 `BrowserRouter` + `Routes` 설정
 - **라우트**: `/login`, `/register`는 공개, `/`, `/products`, `/videos`는 `PrivateRoute`로 보호
 
-## 2. 구조 다이어그램 (Frontend)
-
-```mermaid
-flowchart TB
-    subgraph Entry["진입점"]
-        A[index.html] --> B[main.tsx]
-        B --> C[App.tsx]
-    end
-
-    subgraph App["앱 루트"]
-        C --> D[AuthProvider]
-        D --> E[BrowserRouter]
-        E --> F[Routes]
-    end
-
-    subgraph Routes["라우팅"]
-        F --> G["/login → Login"]
-        F --> H["/register → Register"]
-        F --> I["/ → Navigate to /products"]
-        F --> J[PrivateRoute]
-        J --> K["/products → Products"]
-        J --> L["/videos → VideoSearch"]
-    end
-
-    subgraph PrivateRoute["PrivateRoute"]
-        J --> M[useAuth]
-        M --> N{token?}
-        N -->|없음| O[Navigate to /login]
-        N -->|있음| P[Outlet → 자식 라우트]
-    end
-
-    subgraph Auth["인증 컨텍스트"]
-        D --> Q[AuthContext]
-        Q --> R[user, token, login, logout, isReady]
-        R --> G
-        R --> H
-        R --> J
-        R --> K
-    end
-
-    subgraph Pages["페이지"]
-        G --> S[Login.tsx]
-        H --> T[Register.tsx]
-        K --> U[Products.tsx]
-        L --> V[VideoSearch.tsx]
-    end
-
-    subgraph API["API 레이어"]
-        S --> W[api/client.ts]
-        T --> W
-        U --> W
-        V --> W
-        W --> X[auth.ts]
-        W --> Y[product.ts]
-        W --> Z[video.ts]
-    end
-
-    subgraph Backend["백엔드"]
-        X --> BE[(Express API)]
-        Y --> BE
-        Z --> BE
-    end
-```
-
-
-
-## 3. Frontend 파일별 역할
+## 2. Frontend 파일별 역할
 
 
 | 파일/폴더                       | 역할                               |
@@ -256,7 +135,7 @@ flowchart TB
 | pages/VideoSearch.tsx       | 비디오 등록 폼, 검색 폼 및 결과              |
 
 
-## 4. Frontend 시퀀스 (로그인 플로우)
+## 3. Frontend 시퀀스 (로그인 플로우)
 
 ```mermaid
 sequenceDiagram
@@ -283,7 +162,7 @@ sequenceDiagram
 
 
 
-## 5. Frontend 시퀀스 (Private 라우트 접근)
+## 4. Frontend 시퀀스 (Private 라우트 접근)
 
 ```mermaid
 sequenceDiagram
