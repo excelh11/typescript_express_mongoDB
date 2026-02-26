@@ -4,7 +4,13 @@ import routes from "./routes";
 
 const app = express();
 
-app.use(cors());
+app.use(cors({
+  origin: [
+    "http://localhost:5173",
+    "http://front-v.s3-website.ap-northeast-2.amazonaws.com"
+  ],
+  credentials: true
+}));
 app.use(express.json());
 
 app.get("/health", (req, res) => {

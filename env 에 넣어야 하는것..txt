@@ -1,0 +1,11 @@
+env 에 넣어야 하는것.
+
+backend
+PORT=4000
+MONGODB_URI=mongodb+srv://aiexcelh11_db_user:12345678ksh%23@cluster0.exbwpyv.mongodb.net/?appName=Cluster0
+JWT_SECRET=f68f2583b712ae52d9968ba1844d206fc4e6779744f794309b90bc59d55a293c93248b9574f71
+
+
+
+frontend 
+VITE_API_URL=http://back-env.eba-vrtrq2ww.ap-northeast-2.elasticbeanstalk.com
